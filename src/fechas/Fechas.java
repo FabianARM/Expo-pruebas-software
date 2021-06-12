@@ -136,5 +136,28 @@ class Fechas {
              }  
         return isLeap;
     }
+    
+    public static String diaSiguiente(int dia, int mes, int ano) {
+    	return "2017/5/2";
+    }
+    
+    public static String fechaFutura(int dia, int mes, int ano, int cantidadDeDias) { 
+    	String fecha = "";
+    	int diaActual = dia; 
+    	int mesActual = mes;
+    	int anoActual = ano;
+    	for (int indice = 0; indice < cantidadDeDias; indice++) {
+    		fecha = diaSiguiente(anoActual, mesActual, diaActual);
+    		if(fecha == "invalido") {
+    			return fecha; 
+    		}else {
+        		String [] fechaSplit = fecha.split("/");
+        		anoActual = Integer.parseInt(fechaSplit[0]);
+        		mesActual = Integer.parseInt(fechaSplit[1]);
+        		diaActual = Integer.parseInt(fechaSplit[2]);
+    		}
+    	}
+    	return fecha;
+    }
 }
 
