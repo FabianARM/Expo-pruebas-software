@@ -136,5 +136,65 @@ class Fechas {
              }  
         return isLeap;
     }
+    
+    public static String diaSiguiente(int dia, int mes, int anno) {
+    	if (esFechaValida(dia,mes,anno)) {
+    		String newFecha;
+    		int newDia=dia,newMes=mes,newAnno=anno;
+    		switch(mes) {
+    			case 1:
+    			case 3:
+    			case 5:
+    			case 7:
+    			case 8:
+    			case 10:
+    			case 11:
+    			case 12: // los meses de 31 dias
+    				if (mes < 12) {
+    					if (dia < 31) {
+    						newDia = dia + 1;
+    					} else {
+    						newDia = 1;
+    						newMes = mes + 1;
+    					}
+    				} else { // si es diciembre
+    					if (dia < 31) {
+    						newDia = dia + 1;
+    					} else { // es año nuevo
+    						newDia = 1;
+    						newMes = 1;
+    						newAnno = anno + 1;
+    					}
+    				}
+    			case 2: // si es febrero
+    				if (esAnoBisiesto(anno)) {
+    					if (dia < 29) {
+    						newDia = dia + 1;
+    					} else { // es 29 de febrero
+    						newDia = 1;
+    						newMes = 3;
+    					}
+    				} else { // si no es bisiesto
+    					if (dia < 28) {
+    						newDia = dia + 1;
+    					} else { // es 28 de febrero
+    						newDia = 1;
+    						newMes = 3;
+    					}
+    				}
+    			default: // los meses de 30 días
+    				if (dia < 30) {
+						newDia = dia + 1;
+					} else {
+						newDia = 1;
+						newMes = mes + 1;
+					}
+    		}
+    		newFecha = Integer.toString(newDia) + "/" + Integer.toString(newMes) + "/" + Integer.toString(newAnno);
+    		return newFecha;
+    	} else { // es una fecha inválida
+    		return "invalido";
+    	}
+    }
 }
 
