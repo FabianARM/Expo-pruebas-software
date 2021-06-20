@@ -3,6 +3,8 @@ package fechas;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FechasUnitTests {
 
@@ -28,6 +30,18 @@ class FechasUnitTests {
       assertEquals(Fechas.esFechaValida(2020,3,30),true);
       assertEquals(Fechas.esFechaValida(2020,2,29),true);
       assertEquals(Fechas.esFechaValida(2020,2,28),true);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"2003,2,28","2020,9,1","2020,1,23","1582,9,23","2020,5,31","2020,3,30","2020,2,29","2020,2,28"})
+    public void pruebaFechaValida(int anno, int mes, int dia) {
+        assertEquals(Fechas.esFechaValida(anno, mes, dia),true);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"2017,7,35","2003,2,0","2003,0,28"})
+    public void pruebaFechaInvalida(int anno, int mes, int dia) {
+        assertEquals(Fechas.esFechaValida(anno, mes, dia),false);
     }
     
     @Test 
