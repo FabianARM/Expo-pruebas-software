@@ -13,7 +13,7 @@ class Fechas {
 
     	System.out.println("Programa principal");
     	
-    	System.out.println(fechaFutura(10, 12,2021, 10));  // Debe imprimir 365
+    	System.out.println(diaDelAno(2017, 12,31));  // Debe imprimir 365
     	
     	System.out.println(esFechaValida(2003,2,28)); //Debe imprimir true
     	
@@ -125,7 +125,7 @@ class Fechas {
         return isLeap;
     }
     
-    public static String diaSiguiente(int dia, int mes, int anno) {
+    public static String diaSiguiente(int anno, int mes, int dia) {
     	if (esFechaValida(anno,mes,dia)) {
     		String newFecha;
     		int newDia=dia,newMes=mes,newAnno=anno;
@@ -154,6 +154,7 @@ class Fechas {
     						newAnno = anno + 1;
     					}
     				}
+    				break;
     			case 2: // si es febrero
     				if (esAnoBisiesto(anno)) {
     					if (dia < 29) {
@@ -170,6 +171,7 @@ class Fechas {
     						newMes = 3;
     					}
     				}
+    				break;
     			default: // los meses de 30 días
     				if (dia < 30) {
 						newDia = dia + 1;
@@ -177,31 +179,13 @@ class Fechas {
 						newDia = 1;
 						newMes = mes + 1;
 					}
+    				break;
     		}
-    		newFecha = Integer.toString(newDia) + "/" + Integer.toString(newMes) + "/" + Integer.toString(newAnno);
+    		newFecha = Integer.toString(newAnno) + "/" + Integer.toString(newMes) + "/" + Integer.toString(newDia);
     		return newFecha;
     	} else { // es una fecha inválida
     		return "invalido";
     	}
-    }
-    public static String fechaFutura(int dia, int mes, int ano, int cantidadDeDias) { 
-    	String fecha = "";
-    	int diaActual = dia; 
-    	int mesActual = mes;
-    	int anoActual = ano;
-    		fecha = diaSiguiente(diaActual, mesActual, anoActual);
-    	for (int indice = 1; indice < cantidadDeDias; indice++) {
-    		if(fecha == "invalido") {
-    			return fecha; 
-    		}else {
-        		String [] fechaSplit = fecha.split("/");
-        		anoActual = Integer.parseInt(fechaSplit[2]);
-        		mesActual = Integer.parseInt(fechaSplit[1]);
-        		diaActual = Integer.parseInt(fechaSplit[0]);
-        		fecha = diaSiguiente(diaActual, mesActual, anoActual);
-    		}
-    	}
-    	return fecha;
     }
 }
 
