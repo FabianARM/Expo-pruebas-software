@@ -13,7 +13,7 @@ class Fechas {
 
     	System.out.println("Programa principal");
     	
-    	System.out.println(diaDelAno(2017, 12,31));  // Debe imprimir 365
+    	System.out.println(fechaFutura(10, 12,2021, 10));  // Debe imprimir 365
     	
     	System.out.println(esFechaValida(2003,2,28)); //Debe imprimir true
     	
@@ -138,7 +138,7 @@ class Fechas {
     }
     
     public static String diaSiguiente(int dia, int mes, int anno) {
-    	if (esFechaValida(dia,mes,anno)) {
+    	if (esFechaValida(anno,mes,dia)) {
     		String newFecha;
     		int newDia=dia,newMes=mes,newAnno=anno;
     		switch(mes) {
@@ -201,15 +201,16 @@ class Fechas {
     	int diaActual = dia; 
     	int mesActual = mes;
     	int anoActual = ano;
-    		fecha = diaSiguiente(anoActual, mesActual, diaActual);
-    	for (int indice = 0; indice < cantidadDeDias; indice++) {
+    		fecha = diaSiguiente(diaActual, mesActual, anoActual);
+    	for (int indice = 1; indice < cantidadDeDias; indice++) {
     		if(fecha == "invalido") {
     			return fecha; 
     		}else {
         		String [] fechaSplit = fecha.split("/");
-        		anoActual = Integer.parseInt(fechaSplit[0]);
+        		anoActual = Integer.parseInt(fechaSplit[2]);
         		mesActual = Integer.parseInt(fechaSplit[1]);
-        		diaActual = Integer.parseInt(fechaSplit[2]);
+        		diaActual = Integer.parseInt(fechaSplit[0]);
+        		fecha = diaSiguiente(diaActual, mesActual, anoActual);
     		}
     	}
     	return fecha;
