@@ -98,19 +98,7 @@ class Fechas {
         }
         return isNotCorrect; 
     }
-
-     
-    public static int[] devuelveArray (int dia, int mes, int ano) {
-          
-    int[] arregloParaDevolver ; //= {0,0,0};
-    arregloParaDevolver = new int[3];
-          
-    arregloParaDevolver[0] = dia+1;
-    arregloParaDevolver[1] = mes+1;
-    arregloParaDevolver[2] = ano+1; 
-    return arregloParaDevolver;
-    }
-        
+      
     public static int validarMes(int pmonth) {
         int month = pmonth;
         if (month > 12 || month < 1) {   
