@@ -3,6 +3,8 @@ package fechas;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FechasUnitTests {
 
@@ -14,26 +16,29 @@ class FechasUnitTests {
       assertEquals (Fechas.diaDelAno(2020,12,31),366);
       assertEquals(Fechas.diaDelAno(2020, 1, 1), 1);
     }
- 
-    @Test
-    public void pruebaFechaValida() {
-      assertEquals(Fechas.esFechaValida(2017,7,35),false);
-      assertEquals(Fechas.esFechaValida(2003,2,28),true);
-      assertEquals(Fechas.esFechaValida(2003,2,0),false);
-      assertEquals(Fechas.esFechaValida(2003,0,28),false);
-      assertEquals(Fechas.esFechaValida(2020,9,1),true);
-      assertEquals(Fechas.esFechaValida(2020,1,23),true);
-      assertEquals(Fechas.esFechaValida(1582,9,23),true);
-      assertEquals(Fechas.esFechaValida(2020,5,31),true);
-      assertEquals(Fechas.esFechaValida(2020,3,30),true);
-      assertEquals(Fechas.esFechaValida(2020,2,29),true);
-      assertEquals(Fechas.esFechaValida(2020,2,28),true);
+    
+    @ParameterizedTest
+    @CsvSource({"2003,2,28","2020,9,1","2020,1,23","1582,9,23","2020,5,31","2020,3,30","2020,2,29","2020,2,28"})
+    public void pruebaFechaValida(int anno, int mes, int dia) {
+        assertEquals(Fechas.esFechaValida(anno, mes, dia),true);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"2017,7,35","2003,2,0","2003,0,28"})
+    public void pruebaFechaInvalida(int anno, int mes, int dia) {
+        assertEquals(Fechas.esFechaValida(anno, mes, dia),false);
     }
     
     @Test 
     public void pruebaEsAnnoBisiestoValido() {
         int ANNO_BISIESTO_1 = 1600; 
         assertEquals(Fechas.esAnoBisiesto(ANNO_BISIESTO_1), true);
+    }
+    
+    @Test 
+    public void pruebaEsAnnoBisiestoInvalido() {
+        int ANO_INVALIDO = 1500; 
+        assertEquals(Fechas.esAnoBisiesto(ANO_INVALIDO), false);
     }
 
     @Test
@@ -92,21 +97,6 @@ class FechasUnitTests {
         int ANNO_INVALIDO = 15; 
         assertNotEquals(Fechas.validarAno(ANNO_INVALIDO), ANNO_INVALIDO);
     }
-
-    @Test 
-    public void pruebaValidarDevuelveArray() {
-        int DIA = 10; 
-        int MONTH = 01; 
-        int YEAR = 1998; 
-        int[] ARREGLO_FECHA = {DIA+1, MONTH+1, YEAR+1}; 
-        assertArrayEquals(Fechas.devuelveArray(DIA, MONTH, YEAR), ARREGLO_FECHA);
-    }
-  
-    @Test 
-    public void pruebaEsAnnoBisiestoInvalido() {
-        int ANO_INVALIDO = 1500; 
-        assertEquals(Fechas.esAnoBisiesto(ANO_INVALIDO), false);
-    }
     
     @Test
     public void pruebaDiaDelAnoInvalido() {
@@ -116,9 +106,18 @@ class FechasUnitTests {
         assertEquals(Fechas.diaDelAno(2020, 2, 30), -2);
 
         assertEquals(Fechas.diaDelAno(1581, 3, 30), -3);
-
-
     }
     
+    @ParameterizedTest
+    @CsvSource({"2020,3,1,2020/3/2","2020,3,31,2020/4/1","2020,12,1,2020/12/2","2020,12,31,2021/1/1","2020,2,28,2020/2/29","2020,2,29,2020/3/1","2019,2,27,2019/2/28","2019,2,28,2019/3/1","2019,4,29,2019/4/30","2019,4,30,2019/5/1"})
+    public void pruebaDiaSiguienteValido(int anno, int mes, int dia, String resultadoEsperado) {
+        assertEquals(Fechas.diaSiguiente(anno, mes, dia),resultadoEsperado);
+    }
+    
+    @Test
+    public void pruebaDiaSiguienteInvalido() {
+    	String DIA_SIGUIENTE_INVALIDO = "invalido";
+    	assertEquals(Fechas.diaSiguiente(2019, 2, 29),DIA_SIGUIENTE_INVALIDO);
+    }
  }
   
