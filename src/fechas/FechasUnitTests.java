@@ -8,13 +8,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class FechasUnitTests {
 
-    @Test
-    public void pruebaDiaDelAno() {    
-      assertEquals (Fechas.diaDelAno(2017,12,31),365);  
-      assertEquals (Fechas.diaDelAno(2017,1,2),2);
-      assertEquals (Fechas.diaDelAno(2017,5,2),122);
-      assertEquals (Fechas.diaDelAno(2020,12,31),366);
-      assertEquals(Fechas.diaDelAno(2020, 1, 1), 1);
+    @ParameterizedTest
+    @CsvSource({"2017,12,31,365", "2017,1,2,2", "2017,5,2,122","2020,12,31,366","2020,1,1,1"})
+    public void pruebaDiaDelAno(int anno, int mes, int dia, int resultado) {    
+      assertEquals (Fechas.diaDelAno(anno,mes,dia),resultado);  
+
     }
     
     @ParameterizedTest
@@ -23,63 +21,48 @@ class FechasUnitTests {
         assertEquals(Fechas.esFechaValida(anno, mes, dia),true);
     }
     
+    
     @ParameterizedTest
-    @CsvSource({"2017,7,35","2003,2,0","2003,0,28"})
+    @CsvSource({"1600"})
+    public void pruebaEsAnnoBisiestoValido(int anno) {
+        assertEquals(Fechas.esAnoBisiesto(anno), true);
+    }
+    
+    @ParameterizedTest
+    @CsvSource({"1500"})
+    public void pruebaEsAnnoBisiestoInvalido(int anno) {
+        assertEquals(Fechas.esAnoBisiesto(anno), false);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"2020,9,32","2020,13,23","1581,9,23","2020,5,32","2020,4,31","2020,2,30","2019,2,29","2017,7,35","2003,2,0","2003,0,28"})
     public void pruebaFechaInvalida(int anno, int mes, int dia) {
-        assertEquals(Fechas.esFechaValida(anno, mes, dia),false);
-    }
-    
-    @Test 
-    public void pruebaEsAnnoBisiestoValido() {
-        int ANNO_BISIESTO_1 = 1600; 
-        assertEquals(Fechas.esAnoBisiesto(ANNO_BISIESTO_1), true);
-    }
-    
-    @Test 
-    public void pruebaEsAnnoBisiestoInvalido() {
-        int ANO_INVALIDO = 1500; 
-        assertEquals(Fechas.esAnoBisiesto(ANO_INVALIDO), false);
-    }
-
-    @Test
-    public void pruebaFechaInvalida() {
         // ANO, MES y DIA MES
-        assertEquals(Fechas.esFechaValida(2020, 9, 32), false);
-        assertEquals(Fechas.esFechaValida(2020, 13, 23), false);
-        assertEquals(Fechas.esFechaValida(1581, 9, 23), false);
-        assertEquals(Fechas.esFechaValida(2020, 5, 32), false);
-        assertEquals(Fechas.esFechaValida(2020, 4, 31), false);
-        assertEquals(Fechas.esFechaValida(2020, 2, 30), false);
-        assertEquals(Fechas.esFechaValida(2019, 2, 29), false);
+        assertEquals(Fechas.esFechaValida(anno, mes, dia), false);
 
     }
     
-    @Test
-    public void pruebaValidarDiasDeMesInvalido() {
-    	assertEquals(Fechas.validarDiasDeMes(2, 0, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(2, 30, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(2, 30, 2019), -2);
-    	assertEquals(Fechas.validarDiasDeMes(2, 29, 2019), -2);
-    	assertEquals(Fechas.validarDiasDeMes(3, 0, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(3, 32, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(4, 0, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(4, 31, 2020), -2);
-    	assertEquals(Fechas.validarDiasDeMes(-1, 31, 2020), -1);
+    @ParameterizedTest
+    @CsvSource({"2,0,2020,-2","2,30,2020,-2","2,30,2019,-2","2,29,2019,-2","3,0,2020,-2","3,32,2020,-2","4,0,2020,-2","4,31,2020,-2","4,31,2020,-2","-1,31,2020,-1"})
+    public void pruebaValidarDiasDeMesInvalido(int mes, int dia, int anno, int resultado) {
+    	assertEquals(Fechas.validarDiasDeMes(mes, dia, anno), resultado);
     }
     
-    @Test
-    public void pruebaValidarDiasDeMesValido() {
-    	assertEquals(Fechas.validarDiasDeMes(2, 17, 2020), 2);
-    	assertEquals(Fechas.validarDiasDeMes(4, 17, 2020), 4);
+    @ParameterizedTest
+    @CsvSource({"2,17,2020,2","4,17,2020,4"})
+    public void pruebaValidarDiasDeMesValido(int mes, int dia, int anno,int resultado) {
+    	assertEquals(Fechas.validarDiasDeMes(mes, dia, anno), resultado);
+    	
     }
     
-    @Test
-    public void  pruebaValidarMesValido() {
-        int MES_VALIDO = 5; 
-        assertEquals(Fechas.validarMes(MES_VALIDO), MES_VALIDO);
+    @ParameterizedTest
+    @CsvSource({"5"})
+    public void  pruebaValidarMesValido(int mes) {
+        assertEquals(Fechas.validarMes(mes), mes);
     }
 
-    @Test 
+    @ParameterizedTest
+    @CsvSource({"2017,7,35"})
     public void pruebaValidarMesInvalido() {
         int MES_INVALIDO = 13;
          assertNotEquals(Fechas.validarMes(MES_INVALIDO), MES_INVALIDO);
@@ -87,25 +70,21 @@ class FechasUnitTests {
          assertNotEquals(Fechas.validarMes(MES_INVALIDO_2), MES_INVALIDO_2);
     }
 
-    @Test 
-    public void pruebaValidarAnnoValido() {
-        int ANNO_VALIDO = 2020; 
-        assertEquals(Fechas.validarAno(ANNO_VALIDO), ANNO_VALIDO);
+    @ParameterizedTest
+    @CsvSource({"2020"})
+    public void pruebaValidarAnnoValido(int anno) {
+        assertEquals(Fechas.validarAno(anno), anno);
     }
-    @Test 
-    public void pruebaValidarAnnoInvalido() {
-        int ANNO_INVALIDO = 15; 
-        assertNotEquals(Fechas.validarAno(ANNO_INVALIDO), ANNO_INVALIDO);
+    @ParameterizedTest
+    @CsvSource({"15"})
+    public void pruebaValidarAnnoInvalido(int anno) {
+        assertNotEquals(Fechas.validarAno(anno), anno);
     }
     
-    @Test
-    public void pruebaDiaDelAnoInvalido() {
-
-        assertEquals(Fechas.diaDelAno(2020, 30, 2), -1);
-
-        assertEquals(Fechas.diaDelAno(2020, 2, 30), -2);
-
-        assertEquals(Fechas.diaDelAno(1581, 3, 30), -3);
+    @ParameterizedTest
+    @CsvSource({"2020,30,2,-1", "2020,2,30,-2", "1581,3,30,-3"})
+    public void pruebaDiaDelAnoInvalido(int anno, int mes, int dia, int resultado) {
+        assertEquals(Fechas.diaDelAno(anno, mes, dia), resultado);
     }
     
     @ParameterizedTest
@@ -114,10 +93,11 @@ class FechasUnitTests {
         assertEquals(Fechas.diaSiguiente(anno, mes, dia),resultadoEsperado);
     }
     
-    @Test
-    public void pruebaDiaSiguienteInvalido() {
+    @ParameterizedTest
+    @CsvSource({"2019,2,29"})
+    public void pruebaDiaSiguienteInvalido(int anno, int mes, int dia) {
     	String DIA_SIGUIENTE_INVALIDO = "invalido";
-    	assertEquals(Fechas.diaSiguiente(2019, 2, 29),DIA_SIGUIENTE_INVALIDO);
+    	assertEquals(Fechas.diaSiguiente(anno, mes, dia),DIA_SIGUIENTE_INVALIDO);
     }
  }
   
