@@ -99,5 +99,11 @@ class FechasUnitTests {
     	String DIA_SIGUIENTE_INVALIDO = "invalido";
     	assertEquals(Fechas.diaSiguiente(anno, mes, dia),DIA_SIGUIENTE_INVALIDO);
     }
+    
+    @ParameterizedTest
+    @CsvSource({"2017,12,31,10,2018/1/10","20,20,20,10,invalido"})
+    public void pruebaFechaFutura(int anno, int mes, int dia, int diasAPasar, String resultado) {
+    	assertEquals(Fechas.fechaFutura(anno, mes, dia,diasAPasar),resultado);
+    }
  }
   
