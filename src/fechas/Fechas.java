@@ -118,10 +118,10 @@ class Fechas {
     public static boolean esAnoBisiesto(int pyear){
         boolean isLeap = false;
         if (validarAno(pyear) > -3) {        
-              if ((pyear % 400 == 0) | (pyear % 4 == 0 & pyear % 100 != 0)) {
+              if ((pyear % 400 == 0) || (pyear % 4 == 0 && pyear % 100 != 0)) {
                   isLeap = true;
               } 
-             }  
+        }  
         return isLeap;
     }
     
